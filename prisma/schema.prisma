@@ -1,3 +1,4 @@
+
 generator client {
   provider = "prisma-client-js"
   output   = "../server/generated/prisma"
@@ -19,7 +20,8 @@ model User {
   sessions      Session[]
   accounts      Account[]
 
-  role String?
+  role   String?
+  orders Order[]
 
   @@unique([email])
   @@map("users")
@@ -79,9 +81,35 @@ model Products {
   imagePath   String?
   isStock     Boolean @default(true)
 
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  created_at            DateTime               @default(now())
+  updated_at            DateTime               @updatedAt
+  orders                Order[]
+  downloadVerifications DownloadVerification[]
 
   @@index([name])
   @@map("products")
+}
+
+model Order {
+  id    String @id @default(cuid())
+  price Int
+
+  user    User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id String
+
+  product    Products @relation(fields: [product_id], references: [id], onDelete: Restrict)
+  product_id String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("orders")
+}
+
+model DownloadVerification {
+  id         String   @id @default(cuid())
+  expires    DateTime
+  product    Products @relation(fields: [product_id], references: [id], onDelete: Restrict)
+  product_id String
+  created_at DateTime @default(now())
 }
