@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Poppins, Mona_Sans } from "next/font/google";
 import "./globals.css";
+import { cn } from "@/lib/utils";
+import Navbar, { Navlink } from "@/components/navbar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -10,6 +12,18 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const popin = Poppins({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--popin",
+});
+
+const mona = Mona_Sans({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--mona",
 });
 
 export const metadata: Metadata = {
@@ -27,7 +41,14 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <Navbar>
+          <Navlink href={"/"}>Home</Navlink>
+          <Navlink href={"/dashboard"}>Dashboard</Navlink>
+          <Navlink href={"/products"}>Products</Navlink>
+        </Navbar>
+        <main className={cn(`container mx-auto py-4`, popin.className)}>
+          {children}
+        </main>
       </body>
     </html>
   );

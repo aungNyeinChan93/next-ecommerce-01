@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client-js"
   output   = "../server/generated/prisma"
@@ -109,7 +108,7 @@ model Order {
 model DownloadVerification {
   id         String   @id @default(cuid())
   expires    DateTime
-  product    Products @relation(fields: [product_id], references: [id], onDelete: Restrict)
+  product    Products @relation(fields: [product_id], references: [id], onDelete: Cascade)
   product_id String
   created_at DateTime @default(now())
 }
