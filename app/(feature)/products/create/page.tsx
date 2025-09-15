@@ -7,7 +7,7 @@ const CreateProducts = async () => {
     <React.Fragment>
       <main className="w-full min-h-screen p-4 bg-green-50">
         <ProductHeader href={"/"}>Create Product</ProductHeader>
-        <section className="flex w-full min-h-150 justify-center items-center">
+        <section className="flex w-full min-h-auto mt-9 justify-center items-center">
           <ProductForm />
         </section>
       </main>
