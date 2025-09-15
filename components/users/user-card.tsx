@@ -9,24 +9,26 @@ import {
   CardTitle,
 } from "../ui/card";
 import { cn } from "@/lib/utils";
+import { User } from "@/server/generated/prisma";
 
 interface Props {
-  data?: any;
+  users?: User[] | null;
+  usersCount?: number | undefined;
   className?: string;
 }
-const DashboardCard = ({ className, data }: Props) => {
+const UserCard = ({ className, users, usersCount }: Props) => {
   return (
     <React.Fragment>
       <Card className={cn(className)}>
         <CardHeader>
-          <CardTitle> {"Sale"}</CardTitle>
+          <CardTitle> {"Customer"}</CardTitle>
           <CardDescription>
-            <p className="my-2">{data?.amount} $</p>
+            <p className="my-2 text-red-500">Total customer - {usersCount} </p>
           </CardDescription>
         </CardHeader>
         <CardContent>
           <p className="text-sm">
-            {data?.numberOfSales + " orders" ||
+            {usersCount + " customer" ||
               ` Lorem ipsum, dolor sit amet consectetur adipisicing elit. Optio
               dolorem at consequatur.`}
           </p>
@@ -36,4 +38,4 @@ const DashboardCard = ({ className, data }: Props) => {
   );
 };
 
-export default DashboardCard;
+export default UserCard;

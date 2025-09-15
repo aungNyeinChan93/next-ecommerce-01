@@ -11,22 +11,25 @@ import {
 import { cn } from "@/lib/utils";
 
 interface Props {
-  data?: any;
   className?: string;
+  products: any;
 }
-const DashboardCard = ({ className, data }: Props) => {
+const ProductCard = ({ className, products }: Props) => {
   return (
     <React.Fragment>
       <Card className={cn(className)}>
         <CardHeader>
-          <CardTitle> {"Sale"}</CardTitle>
+          <CardTitle> {"Products"}</CardTitle>
           <CardDescription>
-            <p className="my-2">{data?.amount} $</p>
+            <p className="my-2 text-red-500">
+              Avaliable products - {products?.activeProducts}
+              {products?.activeProducts > 1 ? " itmes" : " item"}
+            </p>
           </CardDescription>
         </CardHeader>
         <CardContent>
           <p className="text-sm">
-            {data?.numberOfSales + " orders" ||
+            {products?.totalProduct + " product" ||
               ` Lorem ipsum, dolor sit amet consectetur adipisicing elit. Optio
               dolorem at consequatur.`}
           </p>
@@ -36,4 +39,4 @@ const DashboardCard = ({ className, data }: Props) => {
   );
 };
 
-export default DashboardCard;
+export default ProductCard;

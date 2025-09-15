@@ -13,48 +13,33 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { registerAction } from "@/features/auth/auth-action";
-import { redirect } from "next/navigation";
+import { loginAction, registerAction } from "@/features/auth/auth-action";
+import { redirect, RedirectType } from "next/navigation";
 import Link from "next/link";
 
-const RegisterForm = () => {
-  const [state, formAction, isPending] = useActionState(
-    registerAction,
-    undefined
-  );
+const LoginForm = () => {
+  const [state, formAction, isPending] = useActionState(loginAction, undefined);
 
   if (state?.success) {
-    return redirect("/");
+    return redirect(state?.url as string, RedirectType.replace);
   }
   return (
     <React.Fragment>
       <Card className=" w-full sm:w-[400px] lg:w-[500px] mx-4 sm:mx-0">
         <CardHeader>
-          <CardTitle>Register to your account</CardTitle>
+          <CardTitle>Login to your account</CardTitle>
           <CardDescription>
-            Enter your email below to register to your account
+            Enter your email below to Login to your account
           </CardDescription>
           <CardAction>
             <Button variant="link" asChild>
-              <Link href={"/login"}>Sign In</Link>
+              <Link href={"/register"}>Sign up </Link>
             </Button>
           </CardAction>
         </CardHeader>
         <form action={formAction}>
           <CardContent>
             <div className="flex flex-col gap-6">
-              <div className="grid gap-2">
-                {!state?.success && (
-                  <p className="text-sm text-red-600">{state?.errors?.name}</p>
-                )}
-                <Label htmlFor="email">Name</Label>
-                <Input
-                  id="name"
-                  type="text"
-                  placeholder="chan . . "
-                  name="name"
-                />
-              </div>
               <div className="grid gap-2">
                 {!state?.success && (
                   <p className="text-sm text-red-600">{state?.errors?.email}</p>
@@ -88,8 +73,8 @@ const RegisterForm = () => {
             </div>
           </CardContent>
           <CardFooter className="flex-col gap-2 mt-6">
-            <Button type="submit" className="w-full">
-              Register
+            <Button disabled={isPending} type="submit" className="w-full">
+              Login
             </Button>
             <Button variant="outline" className="w-full">
               Login with Google
@@ -101,4 +86,4 @@ const RegisterForm = () => {
   );
 };
 
-export default RegisterForm;
+export default LoginForm;

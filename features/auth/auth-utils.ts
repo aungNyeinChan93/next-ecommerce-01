@@ -19,4 +19,6 @@ export const getAuthUser = async () => {
         include: { accounts: true, sessions: true }
     });
     return authUser
-}
+};
+
+
