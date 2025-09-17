@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import Navbar, { Navlink } from "@/components/navbar";
 import { getAuthUser } from "@/features/auth/auth-utils";
+import toast, { Toaster } from "react-hot-toast";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -44,6 +45,7 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Toaster />
         <Navbar>
           <Navlink href={"/"}>Home</Navlink>
           {authUser?.role === "admin" && (
@@ -54,6 +56,7 @@ export default async function RootLayout({
           <Navlink href={"/products"}>Products</Navlink>
           <Navlink href={"/users"}>Users</Navlink>
           <Navlink href={"/sales"}>Sales</Navlink>
+          <Navlink href={"/articles"}>Articles</Navlink>
         </Navbar>
         <main className={cn(`container mx-auto py-4`, popin.className)}>
           {children}
