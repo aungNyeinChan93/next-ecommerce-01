@@ -8,33 +8,53 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { getProductsData } from "@/features/products/products-util";
+import { Button } from "../ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-const ProductsTable = () => {
+const ProductsTable = async () => {
+  const { products, totalProduct } = await getProductsData();
   return (
     <React.Fragment>
       <section className="p-4 shadow-xl bg-lime-200 rounded-2xl mt-5 ">
         <Table>
-          <TableCaption>A list of your recent invoices.</TableCaption>
+          <TableCaption>A list of product.</TableCaption>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-0">
-                <span className="sr-only">Avaliable for Purchase</span>
+              <TableHead className="w-[100px]">
+                <span className="w-[100px]">Avaliable for Purchase</span>
               </TableHead>
               <TableHead className="w-[200px]">Name</TableHead>
               <TableHead>Price</TableHead>
-              <TableHead>Orders</TableHead>
-              <TableHead className="w-0">
-                <span className="sr-only">Action</span>
+              <TableHead>Stock</TableHead>
+              <TableHead className="">
+                <span className="">Action</span>
               </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            <TableRow>
-              <TableCell className="font-medium">INV001</TableCell>
-              <TableCell>Paid</TableCell>
-              <TableCell>Credit Card</TableCell>
-              <TableCell className="text-right">$250.00</TableCell>
-            </TableRow>
+            {products &&
+              Array.isArray(products) &&
+              products?.map((product) => (
+                <TableRow key={product?.id}>
+                  <TableCell>
+                    <Avatar>
+                      <AvatarImage src={product?.imagePath || "/next.svg"} />
+                      <AvatarFallback>PI</AvatarFallback>
+                    </Avatar>
+                  </TableCell>
+                  <TableCell className="font-medium">{product?.name}</TableCell>
+                  <TableCell>{"$ " + product?.price}</TableCell>
+                  <TableCell className="text-start">
+                    {product?.isStock ? "avaliable" : "out of stock"}
+                  </TableCell>
+                  <TableCell className="text-start">
+                    <Button type="button" variant={"outline"}>
+                      Detail
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </section>

@@ -1,3 +1,4 @@
+import { imageUpload } from "@/features/articles/articles-utils";
 import { fileUpload } from "@/features/products/products-util";
 import React from "react";
 
@@ -9,7 +10,7 @@ const DemoOne = async () => {
           action={async (formData: FormData) => {
             "use server";
             const file = formData.get("image") as File;
-            const imagePath = await fileUpload(file, "football-images");
+            const imagePath = await imageUpload(file, "football-images");
             console.log(imagePath);
           }}
         >

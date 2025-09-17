@@ -19,8 +19,10 @@ model User {
   sessions      Session[]
   accounts      Account[]
 
-  role   String?
-  orders Order[]
+  role     String?
+  orders   Order[]
+  articles Article[]
+  comments Comment[]
 
   @@unique([email])
   @@map("users")
@@ -111,4 +113,22 @@ model DownloadVerification {
   product    Products @relation(fields: [product_id], references: [id], onDelete: Cascade)
   product_id String
   created_at DateTime @default(now())
+}
+
+model Article {
+  id        String    @id @default(cuid())
+  title     String
+  content   String    @db.Text
+  image     String?
+  author    User?     @relation(fields: [author_id], references: [id])
+  author_id String?
+  comments  Comment[]
+}
+
+model Comment {
+  id         String   @id @default(cuid())
+  user       User     @relation(fields: [user_id], references: [id])
+  user_id    String
+  article    Article? @relation(fields: [article_id], references: [id])
+  article_id String?
 }
