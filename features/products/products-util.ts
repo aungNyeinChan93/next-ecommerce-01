@@ -1,7 +1,8 @@
+import { Prisma, PrismaClient } from '@/server/generated/prisma';
 import fs from 'fs'
 import path from 'path'
 
-// 
+// products data
 export async function getProductsData() {
     const [products, totalProduct, activeProducts] = await Promise.all([
         prisma?.products.findMany({
@@ -13,7 +14,7 @@ export async function getProductsData() {
     return { products, totalProduct, activeProducts }
 }
 
-// prduct file save
+// product file save
 export async function fileUpload(file?: File, dir?: string,) {
     // cretae dir
     if (!fs.existsSync(dir as string)) {
@@ -32,4 +33,16 @@ export async function fileUpload(file?: File, dir?: string,) {
         await fs.promises.writeFile(`public/${filePath}`, fileBuffer);
     }
     return filePath;
+}
+
+export type ProductType = Prisma.ProductsGetPayload<{
+    include: { _count: { select: { orders: true } }, orders: true, downloadVerifications: true }
+}>
+// get product
+export async function getProductById(id?: string) {
+    const product = await prisma?.products.findUnique({
+        where: { id },
+        include: { orders: true, _count: { select: { orders: true } }, downloadVerifications: true }
+    })
+    return product;
 }

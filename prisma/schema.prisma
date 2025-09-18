@@ -123,6 +123,11 @@ model Article {
   author    User?     @relation(fields: [author_id], references: [id])
   author_id String?
   comments  Comment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("artiles")
 }
 
 model Comment {
@@ -132,4 +137,9 @@ model Comment {
   article    Article? @relation(fields: [article_id], references: [id])
   article_id String?
   body       String   @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("comments")
 }

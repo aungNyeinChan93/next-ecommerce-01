@@ -11,6 +11,8 @@ import {
 import { getProductsData } from "@/features/products/products-util";
 import { Button } from "../ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { CheckCircle2, XCircle } from "lucide-react";
+import Link from "next/link";
 
 const ProductsTable = async () => {
   const { products, totalProduct } = await getProductsData();
@@ -22,7 +24,7 @@ const ProductsTable = async () => {
           <TableHeader>
             <TableRow>
               <TableHead className="w-[100px]">
-                <span className="w-[100px]">Avaliable for Purchase</span>
+                <span className="w-[100px]"></span>
               </TableHead>
               <TableHead className="w-[200px]">Name</TableHead>
               <TableHead>Price</TableHead>
@@ -38,7 +40,7 @@ const ProductsTable = async () => {
               products?.map((product) => (
                 <TableRow key={product?.id}>
                   <TableCell>
-                    <Avatar>
+                    <Avatar className="w-14 h-14">
                       <AvatarImage src={product?.imagePath || "/next.svg"} />
                       <AvatarFallback>PI</AvatarFallback>
                     </Avatar>
@@ -46,11 +48,19 @@ const ProductsTable = async () => {
                   <TableCell className="font-medium">{product?.name}</TableCell>
                   <TableCell>{"$ " + product?.price}</TableCell>
                   <TableCell className="text-start">
-                    {product?.isStock ? "avaliable" : "out of stock"}
+                    {product?.isStock ? (
+                      <>
+                        <CheckCircle2 style={{ color: "green" }} />
+                      </>
+                    ) : (
+                      <>
+                        <XCircle />
+                      </>
+                    )}
                   </TableCell>
                   <TableCell className="text-start">
-                    <Button type="button" variant={"outline"}>
-                      Detail
+                    <Button type="button" asChild variant={"outline"}>
+                      <Link href={`/products/${product?.id}`}>Detail</Link>
                     </Button>
                   </TableCell>
                 </TableRow>

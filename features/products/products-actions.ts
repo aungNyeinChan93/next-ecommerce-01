@@ -37,8 +37,8 @@ export async function createProductAction(initialState: any, formData: FormData)
     if (!fields?.file && !fields.image) {
         return
     }
-    const filePath = await fileUpload(fields.file as File, 'products/files');
-    const imagePath = await fileUpload(fields.file as File, 'products/images');
+    const filePath = await fileUpload(fields.file as File, '/products/files');
+    const imagePath = await fileUpload(fields.file as File, '/products/images');
 
     if (!filePath && !imagePath) {
         return {

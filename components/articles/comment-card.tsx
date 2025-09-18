@@ -7,6 +7,7 @@ import { Button } from "../ui/button";
 import { commentDeleteAction } from "@/features/comments/comments-action";
 import { redirect } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
+import toast from "react-hot-toast";
 
 interface Props {
   comment?: CommentType | null;
@@ -14,16 +15,19 @@ interface Props {
 
 const CommentCard = ({ comment }: Props) => {
   const session = authClient.useSession();
-
   const authUser_id = session && session?.data?.user?.id;
-  console.log({ authUser_id });
 
   return (
     <React.Fragment>
       <Card>
         <CardTitle>
           <div className="flex justify-between px-6">
-            <p>{comment?.user?.name}</p>
+            <div className="flex flex-col gap-4">
+              <p>{comment?.user?.name}</p>
+              <p className="text-xs tracking-wider font-sans text-slate-500">
+                {comment?.createdAt.toLocaleTimeString()}
+              </p>
+            </div>
             {comment?.user_id === authUser_id && (
               <>
                 <form
@@ -33,7 +37,10 @@ const CommentCard = ({ comment }: Props) => {
                     }
                     const success = await commentDeleteAction(comment?.id);
                     if (success)
-                      return redirect(`/articles/${comment?.article_id}`);
+                      toast.success("delete success", {
+                        className: "!bg-red-50 !text-red-500",
+                      });
+                    return redirect(`/articles/${comment?.article_id}`);
                   }}
                 >
                   <Button type="submit" variant={"destructive"}>
