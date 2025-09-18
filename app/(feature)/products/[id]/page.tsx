@@ -7,7 +7,12 @@ import {
 } from "@/components/ui/card";
 import { getProductById, ProductType } from "@/features/products/products-util";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
-import { ArrowUpLeftFromSquare, CornerDownLeft } from "lucide-react";
+import {
+  ArrowUpLeftFromSquare,
+  Circle,
+  CornerDownLeft,
+  XCircle,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import path from "path";
@@ -51,6 +56,18 @@ const PrductDetailPage = async ({ params }: Props) => {
                     </p>
                     <p className="text-red-600 text-lg">
                       Prize : {product?.price}
+                    </p>
+                    <p className="text-sm text-slate-500  mt-3">
+                      Stock :
+                      {product?.isStock ? (
+                        <span className="text-sky-600 ps-3">
+                          {"avaliable stock"}
+                        </span>
+                      ) : (
+                        <span className="text-red-600 ps-3">
+                          {"out of stock"}
+                        </span>
+                      )}
                     </p>
                   </div>
                 </div>

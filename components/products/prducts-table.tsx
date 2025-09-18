@@ -11,8 +11,18 @@ import {
 import { getProductsData } from "@/features/products/products-util";
 import { Button } from "../ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { CheckCircle2, XCircle } from "lucide-react";
+import { CheckCircle2, MoreVertical, XCircle } from "lucide-react";
 import Link from "next/link";
+import { Card, CardContent } from "../ui/card";
+import ProductTableAction from "./product-table-action";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const ProductsTable = async () => {
   const { products, totalProduct } = await getProductsData();
@@ -29,7 +39,8 @@ const ProductsTable = async () => {
               <TableHead className="w-[200px]">Name</TableHead>
               <TableHead>Price</TableHead>
               <TableHead>Stock</TableHead>
-              <TableHead className="">
+              <TableHead>Orders</TableHead>
+              <TableHead className="text-end">
                 <span className="">Action</span>
               </TableHead>
             </TableRow>
@@ -45,23 +56,28 @@ const ProductsTable = async () => {
                       <AvatarFallback>PI</AvatarFallback>
                     </Avatar>
                   </TableCell>
-                  <TableCell className="font-medium">{product?.name}</TableCell>
-                  <TableCell>{"$ " + product?.price}</TableCell>
-                  <TableCell className="text-start">
+                  <TableCell className="font-medium w-70">
+                    {product?.name}
+                  </TableCell>
+                  <TableCell className="w-40">
+                    {"$ " + product?.price}
+                  </TableCell>
+                  <TableCell className="text-start w-40">
                     {product?.isStock ? (
                       <>
                         <CheckCircle2 style={{ color: "green" }} />
                       </>
                     ) : (
                       <>
-                        <XCircle />
+                        <XCircle style={{ color: "red" }} />
                       </>
                     )}
                   </TableCell>
-                  <TableCell className="text-start">
-                    <Button type="button" asChild variant={"outline"}>
-                      <Link href={`/products/${product?.id}`}>Detail</Link>
-                    </Button>
+                  <TableCell className="w-30">
+                    {product?.orders.length}
+                  </TableCell>
+                  <TableCell className=" text-end">
+                    <ProductTableAction product={product} />
                   </TableCell>
                 </TableRow>
               ))}

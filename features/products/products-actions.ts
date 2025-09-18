@@ -74,3 +74,18 @@ export async function createProductAction(initialState: any, formData: FormData)
     }
 
 }
+
+export async function changeStockStatus(id?: string, stockStatus?: boolean) {
+    const result = !!(await prisma?.products.update({
+        where: { id: id as string },
+        data: { isStock: stockStatus }
+    }))
+    return result;
+};
+
+
+
+export async function deleteProductById(id?: string) {
+    const result = !!(await prisma?.products.delete({ where: { id } }))
+    return result
+}
